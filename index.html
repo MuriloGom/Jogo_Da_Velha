@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Jogo da Velha</title>
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>Jogo da Velha</h1>
+			<div class="placar">
+				<div class ="pontuacao-jogador" id="pontuacao-jogadorX"> 
+					<span>Jogador X</span>
+					<span class="pontuacao">0</span>
+				</div>
+				<div class ="pontuacao-jogador" id="pontuacao-jogadorO"> 
+					<span>Jogador O</span>
+					<span class="pontuacao">0</span>
+				</div>	
+			</div>
+		</header>
+		<main>
+			<div class="informacoes-jogo">
+				<p id="jogador-atual">Vez do Jogador: <span>X</span></p>
+				<button id="reiniciar" class="botao">Reiniciar Jogo</button>
+				<button id="zerar" class="botao">Zerar Placar</button>
+			</div>
+
+			<div class="tabuleiro">
+				<div class="celula" data-index="0"></div>
+				<div class="celula" data-index="1"></div>
+				<div class="celula" data-index="2"></div>
+				<div class="celula" data-index="3"></div>
+				<div class="celula" data-index="4"></div>
+				<div class="celula" data-index="5"></div>
+				<div class="celula" data-index="6"></div>
+				<div class="celula" data-index="7"></div>
+				<div class="celula" data-index="8"></div>
+			</div>
+		</main>
+
+		<div id="modal" class="modal">
+			<div class="conteudo-modal">
+				<h2 id="titulo-modal">Título do Aviso</h2>
+				<p id="mensagem-modal">Mensagem do aviso aqui</p>
+				<button id="fechar-modal" class="botao">Fechar</button>
+			</div>
+		</div>
+	</div>
+	<script src="./js/script.js" defer></script>		
+</body>
+</html>

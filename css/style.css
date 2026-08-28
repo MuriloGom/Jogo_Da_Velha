@@ -1,0 +1,176 @@
+:root{
+	--cor-escura:#133458;
+	--cor-secundario:#838921;
+	--cor-destaque:#D99B21;
+	--cor-fundo:#FAF7BB;
+	--cor-texto:#333;
+	--cor-branca:#fff;
+}
+*{	
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body{
+	background-color: var(  --cor-fundo);
+	color: var(  --cor-texto);
+	min-height:100vh;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	padding: 20px;
+}
+
+.container{
+	width:100%;
+	max-width:800px;
+	background-color: var(--cor-branca);
+	border-radius: 15px;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+	overflow:hidden;
+}
+header{
+	background-color: var(--cor-escura);
+	color: var(--cor-branca);
+	padding: 20px;
+	text-align: center;
+}
+header h1{
+	font-size: 2.5rem;
+	margin-bottom:15px;
+}
+.placar{
+	display:flex;
+	justify-content:space-around;
+	margin-top:15px;
+}
+.pontuacao-jogador{
+	background-color: var(--cor-destaque);
+	padding:10px 20px;
+	border-radius: 8px;
+	min-width:150px;
+	text-align:center;
+}
+.pontuacao-jogador span{
+	display:block;
+}
+.pontuacao-jogador .pontuacao{
+	font-size:1.5rem;
+	font-weight:bold;
+	margin-top:5px;
+}
+main{
+	padding:30px;
+}
+.informacoes-jogo{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+.informacoes-jogo p{
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.informacoes-jogo p span{ 
+	color:var(--cor-destaque);
+	font-size: 1.2rem;
+}
+.botao{
+	background-color: var(--cor-destaque);
+	color:var(--cor-branca);
+	border: none;
+	padding:10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size:1rem;
+	font-weight:bold;
+	transition: all 0.3s ease;
+}
+.botao:hover{
+	background-color: var(--cor-escura);
+	transform: translateY(-2px);
+}
+.tabuleiro{
+	display:grid;
+	grid-template-columns:repeat(3, 1fr);
+	grid-template-rows:repeat(3, 1fr);
+	gap: 15px;
+	margin:0 auto;
+	max-width: 400px;
+	aspect-ratio: 1/1;
+}
+.celula {
+	background-color: var(--cor-secundario);
+	border-radius:10px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:3rem;
+	font-weight:bold;
+	cursor:pointer;
+	transition: all 0.3s ease;
+	color:var(--cor-escura)
+}
+.celula:hover{
+	background-color:var(--cor-destaque);
+	color:var(--cor-branca);
+}
+.celula.x::before{
+	content:'X';
+	color:var(--cor-escura);
+}.celula.o::before{
+	content:'O';
+	color:var(--cor-escura);
+}
+.celula.x,.celula.o{
+	cursor:not-allowed;
+	background-color:var(--cor-secundario);
+}
+.modal{
+	display:none;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.5);
+	z-index:100;
+	justify-content:center;
+	align-items:center;
+}
+.conteudo-modal{
+	background-color: var(--cor-branca);
+	padding:30px;
+	border-radius:10px;
+	max-width:400px;
+	width:90%;
+	text-align:center;
+	box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+.modal h2{
+	margin-bottom:15px;
+	color:var(--cor-destaque);
+}
+.modal p{
+	margin-bottom:20px;
+	font-size:1.1rem;
+}
+@media (max-width: 600px){
+	header h1{
+		font-size:2rem;
+	}
+	.pontuacao-jogador{
+		min-width:120px;
+		padding:8px 15px;
+	}
+	.tabuleiro{
+		gap:10px;
+	}
+	.celula{
+		font-size:2.5rem;
+	}
+}
