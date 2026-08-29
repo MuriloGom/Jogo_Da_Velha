@@ -130,7 +130,7 @@ main{
 	cursor:not-allowed;
 	background-color:var(--cor-secundario);
 }
-.modal{
+.modal,.menu{
 	display:none;
 	position:fixed;
 	top:0;
@@ -142,7 +142,7 @@ main{
 	justify-content:center;
 	align-items:center;
 }
-.conteudo-modal{
+.conteudo-modal, .conteudo-menu{
 	background-color: var(--cor-branca);
 	padding:30px;
 	border-radius:10px;
@@ -151,11 +151,11 @@ main{
 	text-align:center;
 	box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
-.modal h2{
+.modal h2, .menu h2{
 	margin-bottom:15px;
 	color:var(--cor-destaque);
 }
-.modal p{
+.modal p,.menu h2{
 	margin-bottom:20px;
 	font-size:1.1rem;
 }

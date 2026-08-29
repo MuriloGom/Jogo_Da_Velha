@@ -6,9 +6,12 @@ document.addEventListener('DOMContentLoaded',() =>{
 	const placarJogadorX = document.querySelector('#pontuacao-jogadorX');
 	const placarJogadorO = document.querySelector('#pontuacao-jogadorO');
 	const modal = document.querySelector('#modal');
+	const menu = document.querySelector('#menu');
 	const tituloModal = document.querySelector('#titulo-modal');
 	const mensagemModal = document.querySelector('#mensagem-modal');
 	const botaoFecharModal = document.querySelector('#fechar-modal');
+	const botaoMenuJogador = document.querySelector('#humano-menu');
+	const botaoMenuIa = document.querySelector("#ia-menu");
 
 	let tabuleiro = ['','','','','','','','','']
 	let jogadorAtual = "X";
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded',() =>{
 		[0,3,6],[1,4,7],[2,5,8],
 		[0,4,8],[2,4,6]
 	];
-
+	exibirMenu();
 	function iniciarJogo(){
 		tabuleiro = ['','','','','','','','','']
 		jogoAtivo = true;
@@ -85,6 +88,9 @@ document.addEventListener('DOMContentLoaded',() =>{
 			trocarJogador();
 		}
 	}
+	function exibirMenu(){
+		menu.style.display = 'flex';
+	}
 
 	function exibirModal(titulo, mensagem){
 		tituloModal.textContent = titulo;
@@ -94,14 +100,22 @@ document.addEventListener('DOMContentLoaded',() =>{
 
 	function fecharModal(){
 		modal.style.display = 'none';
-		if(!JogoAtivo){
+		if(!jogoAtivo){
 			iniciarJogo();
 		}
 	}
 	celulas.forEach(celula =>{
 		celula.addEventListener('click', lidarComCliqueNaCelula)
 	});
-
+	botaoMenuJogador.addEventListener('click', ()=>{
+		console.log("Opção 2 jogadores selecionada");
+		menu.style.display = 'none';
+		iniciarJogo();
+	})
+	botaoMenuIa.addEventListener('click',()=>{
+		console.log("Opção 1 jogador selecionada");
+		console.log("Em desenvolvimento");
+	})
 	botaoReiniciar.addEventListener('click', iniciarJogo);
 	botaoZerarPlacar.addEventListener('click', ()=>{
 		placares.X = 0;
@@ -116,7 +130,6 @@ document.addEventListener('DOMContentLoaded',() =>{
 			fecharModal();
 		}
 	})
-	iniciarJogo();
 	atualizarPlacar();
 
 })
