@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded',() =>{
 	const botaoFecharModal = document.querySelector('#fechar-modal');
 	const botaoMenuJogador = document.querySelector('#humano-menu');
 	const botaoMenuIa = document.querySelector("#ia-menu");
+	const botaoModoJogo = document.querySelector("#modoJogo")
 
 	let tabuleiro = ['','','','','','','','','']
 	let jogadorAtual = "X";
@@ -257,6 +258,12 @@ function minimax(tabuleiroTeste, profundidade, maximizando) {
 			fecharModal();
 		}
 	})
+	botaoModoJogo.addEventListener('click',()=>{
+		exibirMenu();
+		placares.X = 0;
+		placares.O = 0;
+		atualizarPlacar();
+	});
 	atualizarPlacar();
 
 })

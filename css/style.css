@@ -159,6 +159,19 @@ main{
 	margin-bottom:20px;
 	font-size:1.1rem;
 }
+.returnMenu{
+	justify-content:flex-start;
+	margin-right:1000px;
+}
+.returnMenu button{
+	height:50px;
+	width:140px;
+	font-size:small;
+	background-color:var(--cor-destaque);
+}
+.returnMenu button:hover{
+	Background-color:var(--cor-secundario);
+}
 @media (max-width: 600px){
 	header h1{
 		font-size:2rem;
