@@ -6,13 +6,18 @@ document.addEventListener('DOMContentLoaded',() =>{
 	const placarJogadorX = document.querySelector('#pontuacao-jogadorX');
 	const placarJogadorO = document.querySelector('#pontuacao-jogadorO');
 	const modal = document.querySelector('#modal');
+	const menu = document.querySelector('#menu');
 	const tituloModal = document.querySelector('#titulo-modal');
 	const mensagemModal = document.querySelector('#mensagem-modal');
 	const botaoFecharModal = document.querySelector('#fechar-modal');
+	const botaoMenuJogador = document.querySelector('#humano-menu');
+	const botaoMenuIa = document.querySelector("#ia-menu");
 
 	let tabuleiro = ['','','','','','','','','']
 	let jogadorAtual = "X";
 	let jogoAtivo = true;
+	// Define se o jogo será contra a IA 
+	let modoIA = false;
 	let placares={
 		X:0,
 		O:0
@@ -22,7 +27,7 @@ document.addEventListener('DOMContentLoaded',() =>{
 		[0,3,6],[1,4,7],[2,5,8],
 		[0,4,8],[2,4,6]
 	];
-
+	exibirMenu();
 	function iniciarJogo(){
 		tabuleiro = ['','','','','','','','','']
 		jogoAtivo = true;
@@ -72,18 +77,143 @@ document.addEventListener('DOMContentLoaded',() =>{
 		jogadorAtual = jogadorAtual === 'X' ? 'O' : 'X';
 		jogadorAtualSpan.textContent = jogadorAtual;
 	}
+	function verificarResultado(tabuleiroTeste) {
+	for (let i = 0; i < combinacoesVitoria.length; i++) {
+		const [a, b, c] = combinacoesVitoria[i];
+
+		if (
+			tabuleiroTeste[a] &&
+			tabuleiroTeste[a] === tabuleiroTeste[b] &&
+			tabuleiroTeste[a] === tabuleiroTeste[c]
+		) {
+			return tabuleiroTeste[a];
+		}
+	}
+
+	if (!tabuleiroTeste.includes('')) {
+		return 'empate';
+	}
+
+	return null;
+}
+
+function minimax(tabuleiroTeste, profundidade, maximizando) {
+	const resultado = verificarResultado(tabuleiroTeste);
+	// Se a IA venceu
+	if (resultado === 'O') {
+		return 10 - profundidade;
+	}
+	// Se o jogador venceu
+	if (resultado === 'X') {
+		return profundidade - 10;
+	}
+	// Empate
+	if (resultado === 'empate') {
+		return 0;
+	}
+	// Maximiza a pontuação da IA
+	if (maximizando) {
+		let melhorPontuacao = -Infinity;
+		for (let i = 0; i < tabuleiroTeste.length; i++) {
+			if (tabuleiroTeste[i] === '') {
+				tabuleiroTeste[i] = 'O';
+				const pontuacao = minimax(
+					tabuleiroTeste,
+					profundidade + 1,
+					false
+				);
+				tabuleiroTeste[i] = '';
+				melhorPontuacao = Math.max(
+					melhorPontuacao,
+					pontuacao
+				);
+			}
+		}
+		return melhorPontuacao;
+	}
+	// Minimiza a pontuação do jogador
+	else {
+		let melhorPontuacao = Infinity;
+
+		for (let i = 0; i < tabuleiroTeste.length; i++) {
+			if (tabuleiroTeste[i] === '') {
+
+				tabuleiroTeste[i] = 'X';
+
+				const pontuacao = minimax(
+					tabuleiroTeste,
+					profundidade + 1,
+					true
+				);
+
+				tabuleiroTeste[i] = '';
+
+				melhorPontuacao = Math.min(
+					melhorPontuacao,
+					pontuacao
+				);
+			}
+		}
+
+		return melhorPontuacao;
+	}
+	}
+
+	function jogadaIA() {
+	if (!jogoAtivo) {
+		return;
+	}
+	let melhorPontuacao = -Infinity;
+	let melhorJogada = -1;
+	for (let i = 0; i < tabuleiro.length; i++) {
+		if (tabuleiro[i] === '') {
+			// Simula a jogada da IA
+			tabuleiro[i] = 'O';
+			const pontuacao = minimax(
+				tabuleiro,
+				0,
+				false
+			);
+			// Desfaz a jogada
+			tabuleiro[i] = '';
+			if (pontuacao > melhorPontuacao) {
+				melhorPontuacao = pontuacao;
+				melhorJogada = i;
+			}
+		}
+	}
+	// Faz a melhor jogada encontrada
+	if (melhorJogada !== -1) {
+		tabuleiro[melhorJogada] = 'O';
+		const celulaIA = document.querySelector(
+			`.celula[data-index="${melhorJogada}"]`
+		);
+		celulaIA.classList.add('o');
+		if (!verificarVencedor()) {
+			trocarJogador();
+		}
+	}
+	}
 
 	function lidarComCliqueNaCelula(e){
 		const celula = e.target;
 		const indice = Number(celula.getAttribute('data-index'));
-		if(tabuleiro[indice] !=='' || !jogoAtivo){
+		if(tabuleiro[indice] !=='' || !jogoAtivo || (modoIA && jogadorAtual === 'O')){
 			return;
 		}
 		tabuleiro[indice] = jogadorAtual;
 		celula.classList.add(jogadorAtual.toLowerCase());
 		if(!verificarVencedor()){
 			trocarJogador();
+			if(modoIA && jogadorAtual === 'O'){
+				setTimeout(() => {
+					jogadaIA();
+				}, 300);
+			}
 		}
+	}
+	function exibirMenu(){
+		menu.style.display = 'flex';
 	}
 
 	function exibirModal(titulo, mensagem){
@@ -94,14 +224,25 @@ document.addEventListener('DOMContentLoaded',() =>{
 
 	function fecharModal(){
 		modal.style.display = 'none';
-		if(!JogoAtivo){
+		if(!jogoAtivo){
 			iniciarJogo();
 		}
 	}
 	celulas.forEach(celula =>{
 		celula.addEventListener('click', lidarComCliqueNaCelula)
 	});
-
+	botaoMenuJogador.addEventListener('click', ()=>{
+		console.log("Opção 2 jogadores selecionada");
+		modoIA = false;
+		menu.style.display = 'none';
+		iniciarJogo();
+	})
+	botaoMenuIa.addEventListener('click',()=>{
+		console.log("Opção 1 jogador selecionada");
+		modoIA = true;
+		menu.style.display = 'none';
+		iniciarJogo();
+	})
 	botaoReiniciar.addEventListener('click', iniciarJogo);
 	botaoZerarPlacar.addEventListener('click', ()=>{
 		placares.X = 0;
@@ -116,7 +257,6 @@ document.addEventListener('DOMContentLoaded',() =>{
 			fecharModal();
 		}
 	})
-	iniciarJogo();
 	atualizarPlacar();
 
 })
